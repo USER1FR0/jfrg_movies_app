@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:jfrg_movies_app/config/config.dart';
 import 'package:jfrg_movies_app/domain/domain.dart';
 import 'package:jfrg_movies_app/insfraestructure/mappes/movie_maper.dart';
-import 'package:jfrg_movies_app/insfraestructure/models/moviedb_response.dart';
+import 'package:jfrg_movies_app/insfraestructure/models/moviedb/moviedb_response.dart';
 
 class MoviedbDatasourceImpl implements MoviesDatasource {
   final dio = Dio(

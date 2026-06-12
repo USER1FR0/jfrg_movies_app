@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 class MovieDbResponse {
   final Dates dates;
   final int page;
@@ -64,7 +66,7 @@ class MovieDb {
   final double popularity;
   final String posterPath;
   final DateTime releaseDate;
-  final bool softcore;
+  //final bool softcore;
   final bool video;
   final double voteAverage;
   final int voteCount;
@@ -81,7 +83,7 @@ class MovieDb {
     required this.popularity,
     required this.posterPath,
     required this.releaseDate,
-    required this.softcore,
+    //required this.softcore,
     required this.video,
     required this.voteAverage,
     required this.voteCount,
@@ -99,7 +101,7 @@ class MovieDb {
     popularity: json["popularity"]?.toDouble(),
     posterPath: json["poster_path"],
     releaseDate: DateTime.parse(json["release_date"]),
-    softcore: json["softcore"],
+    //softcore: json["softcore"],
     video: json["video"],
     voteAverage: json["vote_average"]?.toDouble(),
     voteCount: json["vote_count"],
@@ -108,7 +110,7 @@ class MovieDb {
   Map<String, dynamic> toJson() => {
     "adult": adult,
     "backdrop_path": backdropPath,
-    "genre_ids": List<String>.from(genreIds.map((x) => x.toString())),
+    "genre_ids": List<dynamic>.from(genreIds.map((x) => x)),
     "id": id,
     "title": title,
     "original_language": originalLanguage,
@@ -118,7 +120,7 @@ class MovieDb {
     "poster_path": posterPath,
     "release_date":
         "${releaseDate.year.toString().padLeft(4, '0')}-${releaseDate.month.toString().padLeft(2, '0')}-${releaseDate.day.toString().padLeft(2, '0')}",
-    "softcore": softcore,
+    //"softcore": softcore,
     "video": video,
     "vote_average": voteAverage,
     "vote_count": voteCount,
