@@ -1,11 +1,12 @@
 import 'package:jfrg_movies_app/domain/domain.dart';
 
-class MovieRepositoryImpl extends MoviesRepository {
+class MovieRepositoryImpl implements MoviesRepository {
   final MoviesDatasource datasource;
+
   MovieRepositoryImpl(this.datasource);
 
   @override
-  Future<List<Movie>> getMovieById(String id) {
+  Future<Movie> getMovieById(String id) {
     return datasource.getMovieById(id);
   }
 
@@ -20,27 +21,27 @@ class MovieRepositoryImpl extends MoviesRepository {
   }
 
   @override
-  Future<List<Movie>> getSimilarMovies(String movieId) {
-    return datasource.getSimilarMovies(movieId);
-  }
-
-  @override
   Future<List<Movie>> getTopRated({int page = 1}) {
     return datasource.getTopRated(page: page);
   }
 
   @override
+  Future<List<Movie>> searchMovie(String query) {
+    return datasource.searchMovie(query);
+  }
+
+  @override
+  Future<List<Movie>> getSimilarMovie(String movieId) {
+    return datasource.getSimilarMovie(movieId);
+  }
+
+  @override
+  Future<List<dynamic>> getYoutubeVideoById(String movieId) {
+    return datasource.getYoutubeVideoById(movieId);
+  }
+
+  @override
   Future<List<Movie>> getUpcoming({int page = 1}) {
     return datasource.getUpcoming(page: page);
-  }
-
-  @override
-  Future<List<Movie>> getYoutubeTrailers(String movieId) {
-    return datasource.getYoutubeTrailers(movieId);
-  }
-
-  @override
-  Future<List<Movie>> searchMovies(String query) {
-    return datasource.searchMovies(query);
   }
 }

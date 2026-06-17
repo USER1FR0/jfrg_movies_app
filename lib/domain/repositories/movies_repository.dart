@@ -5,8 +5,12 @@ abstract class MoviesRepository {
   Future<List<Movie>> getPopular({int page = 1});
   Future<List<Movie>> getUpcoming({int page = 1});
   Future<List<Movie>> getTopRated({int page = 1});
-  Future<List<Movie>> getMovieById(String id);
-  Future<List<Movie>> searchMovies(String query);
-  Future<List<Movie>> getSimilarMovies(String movieId);
-  Future<List<Movie>> getYoutubeTrailers(String movieId);
+  Future<Movie> getMovieById(String id); // <-- Future<Movie>, ya corregido
+  Future<List<Movie>> searchMovie(
+    String query,
+  ); // <-- singular, igual que datasource
+  Future<List<Movie>> getSimilarMovie(String movieId); // <-- singular
+  Future<List<dynamic>> getYoutubeVideoById(
+    String movieId,
+  ); // <-- nombre igual que datasource
 }

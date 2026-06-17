@@ -1,8 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:jfrg_movies_app/config/config.dart';
-import 'package:jfrg_movies_app/domain/domain.dart';
+import 'package:dio/dio.dart';
 import 'package:jfrg_movies_app/insfraestructure/mappes/movie_maper.dart';
 import 'package:jfrg_movies_app/insfraestructure/models/moviedb/moviedb_response.dart';
+import '../../domain/domain.dart';
 
 class MoviedbDatasourceImpl implements MoviesDatasource {
   final dio = Dio(
@@ -17,24 +17,27 @@ class MoviedbDatasourceImpl implements MoviesDatasource {
 
   @override
   Future<List<Movie>> getNowPlaying({int page = 1}) async {
-    // TODO: implement getNowPlaying
     final response = await dio.get(
       '/movie/now_playing',
       queryParameters: {'page': page},
     );
 
-    final moviesResponse = MovieDbResponse.fromJson(response.data);
-    final List<Movie> movies = moviesResponse.results
+    final movieDbResponse = MovieDbResponse.fromJson(response.data);
+    final List<Movie> movies = movieDbResponse.results
         .map((movieDb) => MovieMaper.movieDbToEntity(movieDb))
         .toList();
-
     return movies;
   }
 
   @override
-  Future<List<Movie>> getMovieById(String id) {
-    // TODO: implement getMovieById
-    throw UnimplementedError();
+  Future<Movie> getMovieById(String id) async {
+    final response = await dio.get('/movie/$id');
+    if (response.statusCode != 200)
+      throw Exception('Movie with id $id not found');
+
+    final detail = MovieDb.fromJson(response.data);
+    final Movie movie = MovieMaper.movieDbToEntity(detail);
+    return movie;
   }
 
   @override
@@ -44,8 +47,8 @@ class MoviedbDatasourceImpl implements MoviesDatasource {
   }
 
   @override
-  Future<List<Movie>> getSimilarMovies(String movieId) {
-    // TODO: implement getSimilarMovies
+  Future<List<Movie>> getSimilarMovie(String movieId) {
+    // TODO: implement getSimilarMovie
     throw UnimplementedError();
   }
 
@@ -62,14 +65,14 @@ class MoviedbDatasourceImpl implements MoviesDatasource {
   }
 
   @override
-  Future<List<Movie>> getYoutubeTrailers(String movieId) {
-    // TODO: implement getYoutubeTrailers
+  Future<List<dynamic>> getYoutubeVideoById(String movieId) {
+    // TODO: implement getYoutubeVideoById
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Movie>> searchMovies(String query) {
-    // TODO: implement searchMovies
+  Future<List<Movie>> searchMovie(String query) {
+    // TODO: implement searchMovie
     throw UnimplementedError();
   }
 }

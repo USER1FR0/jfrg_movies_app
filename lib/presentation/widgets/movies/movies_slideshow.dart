@@ -14,7 +14,7 @@ class MoviesSlideshow extends StatelessWidget {
     return movies.isNotEmpty
         ? FadeIn(
             child: SizedBox(
-              height: 250,
+              height: 200, // un poco más de alto para dar espacio al pagination
               width: double.infinity,
               child: ClipRect(
                 child: Swiper(
@@ -24,7 +24,8 @@ class MoviesSlideshow extends StatelessWidget {
                   autoplayDelay: 4000,
                   duration: 600,
                   pagination: SwiperPagination(
-                    margin: const EdgeInsets.only(top: 210),
+                    margin: const EdgeInsets.only(top: 10),
+                    alignment: Alignment.bottomCenter,
                     builder: DotSwiperPaginationBuilder(
                       activeColor: colors.primary,
                       color: colors.secondary.withOpacity(0.4),
@@ -45,41 +46,39 @@ class MoviesSlideshow extends StatelessWidget {
 
 class _Slide extends StatelessWidget {
   final Movie movie;
+
   const _Slide({required this.movie});
 
   @override
   Widget build(BuildContext context) {
-    final decoration = BoxDecoration(
-      borderRadius: BorderRadius.circular(20),
-      boxShadow: const [
-        BoxShadow(offset: Offset(0, 10), blurRadius: 10, color: Colors.black45),
-      ],
-    );
-
-    return Padding(
-      padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 20),
-      child: DecoratedBox(
-        decoration: decoration,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: GestureDetector(
-            onTap: () {},
-            child: movie.backdropPath.trim().isEmpty
-                ? const Placeholder()
-                : Image.network(
-                    movie.backdropPath,
-                    fit: BoxFit.cover,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return const Center(
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      );
-                    },
-                    errorBuilder: (context, error, stackTrace) =>
-                        const Placeholder(),
-                  ),
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 8),
+      width: 150,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: GestureDetector(
+                child: Image.network(
+                  movie.posterPath,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                ),
+              ),
+            ),
           ),
-        ),
+
+          //Titulo
+          Text(
+            movie.title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 12),
+          ),
+        ],
       ),
     );
   }
