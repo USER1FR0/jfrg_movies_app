@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'config/theme/app_theme.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'config/router/app_router.dart'; // ajusta el path según donde tengas el archivo
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:jfrg_movies_app/config/router/app_router.dart';
+import 'config/config.dart';
 
 void main() async {
   await dotenv.load(fileName: '.env');
 
-  runApp(const ProviderScope(child: MainApp()));
+  runApp(ProviderScope(child: MainApp()));
 }
 
 class MainApp extends StatelessWidget {
@@ -15,6 +16,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    initializeDateFormatting();
+
     return MaterialApp.router(
       routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
@@ -22,3 +25,9 @@ class MainApp extends StatelessWidget {
     );
   }
 }
+//commits:
+//  init: Configuración del proyecto inicial
+//  fix: Configuracion de la pantalla principal
+//  add: Uso de estructura limpia
+//  add: Uso de Slideshow, ListView y cambios de estilos
+//  fix: Corrección del listado de pelicular (horizontal) y configuración con go_router
