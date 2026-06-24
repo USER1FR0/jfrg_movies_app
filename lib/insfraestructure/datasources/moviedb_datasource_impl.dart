@@ -1,6 +1,7 @@
 import 'package:jfrg_movies_app/config/config.dart';
 import 'package:dio/dio.dart';
 import 'package:jfrg_movies_app/insfraestructure/mappes/movie_maper.dart';
+import 'package:jfrg_movies_app/insfraestructure/models/moviedb/moviedb_detail.dart';
 import 'package:jfrg_movies_app/insfraestructure/models/moviedb/moviedb_response.dart';
 import '../../domain/domain.dart';
 
@@ -35,8 +36,8 @@ class MoviedbDatasourceImpl implements MoviesDatasource {
     if (response.statusCode != 200)
       throw Exception('Movie with id $id not found');
 
-    final detail = MovieDb.fromJson(response.data);
-    final Movie movie = MovieMaper.movieDbToEntity(detail);
+    final detail = MovieDbDetail.fromJson(response.data);
+    final Movie movie = MovieMaper.movieDetailToEntity(detail);
     return movie;
   }
 

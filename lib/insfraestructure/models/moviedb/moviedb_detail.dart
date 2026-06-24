@@ -2,7 +2,6 @@
 //
 //     final movieDbDetail = movieDbDetailFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 MovieDbDetail movieDbDetailFromJson(String str) =>
@@ -13,12 +12,12 @@ String movieDbDetailToJson(MovieDbDetail data) => json.encode(data.toJson());
 class MovieDbDetail {
   final bool adult;
   final String backdropPath;
-  final BelongsToCollection belongsToCollection;
+  final BelongsToCollection? belongsToCollection;
   final int budget;
   final List<Genre> genres;
   final String homepage;
   final int id;
-  final String imdbId;
+  final String? imdbId;
   final List<String> originCountry;
   final String originalLanguage;
   final String originalTitle;
@@ -30,7 +29,6 @@ class MovieDbDetail {
   final DateTime releaseDate;
   final int revenue;
   final int runtime;
-  final bool softcore;
   final List<SpokenLanguage> spokenLanguages;
   final String status;
   final String tagline;
@@ -42,12 +40,12 @@ class MovieDbDetail {
   MovieDbDetail({
     required this.adult,
     required this.backdropPath,
-    required this.belongsToCollection,
+    this.belongsToCollection,
     required this.budget,
     required this.genres,
     required this.homepage,
     required this.id,
-    required this.imdbId,
+    this.imdbId,
     required this.originCountry,
     required this.originalLanguage,
     required this.originalTitle,
@@ -59,7 +57,6 @@ class MovieDbDetail {
     required this.releaseDate,
     required this.revenue,
     required this.runtime,
-    required this.softcore,
     required this.spokenLanguages,
     required this.status,
     required this.tagline,
@@ -70,47 +67,52 @@ class MovieDbDetail {
   });
 
   factory MovieDbDetail.fromJson(Map<String, dynamic> json) => MovieDbDetail(
-    adult: json["adult"],
-    backdropPath: json["backdrop_path"] ?? "https://upload.wikimedia.org/",
-    belongsToCollection: BelongsToCollection.fromJson(
-      json["belongs_to_collection"],
+    adult: json["adult"] ?? false,
+    backdropPath: json["backdrop_path"] ?? '',
+    belongsToCollection: json["belongs_to_collection"] != null
+        ? BelongsToCollection.fromJson(json["belongs_to_collection"])
+        : null,
+    budget: json["budget"] ?? 0,
+    genres: List<Genre>.from(
+      (json["genres"] ?? []).map((x) => Genre.fromJson(x)),
     ),
-    budget: json["budget"],
-    genres: List<Genre>.from(json["genres"].map((x) => Genre.fromJson(x))),
-    homepage: json["homepage"],
+    homepage: json["homepage"] ?? '',
     id: json["id"],
     imdbId: json["imdb_id"],
-    originCountry: List<String>.from(json["origin_country"].map((x) => x)),
-    originalLanguage: json["original_language"],
-    originalTitle: json["original_title"],
-    overview: json["overview"],
-    popularity: json["popularity"]?.toDouble(),
-    posterPath: json["poster_path"],
+    originCountry: List<String>.from(
+      (json["origin_country"] ?? []).map((x) => x),
+    ),
+    originalLanguage: json["original_language"] ?? '',
+    originalTitle: json["original_title"] ?? '',
+    overview: json["overview"] ?? '',
+    popularity: (json["popularity"] ?? 0).toDouble(),
+    posterPath: json["poster_path"] ?? '',
     productionCompanies: List<ProductionCompany>.from(
-      json["production_companies"].map((x) => ProductionCompany.fromJson(x)),
+      (json["production_companies"] ?? []).map((x) => ProductionCompany.fromJson(x)),
     ),
     productionCountries: List<ProductionCountry>.from(
-      json["production_countries"].map((x) => ProductionCountry.fromJson(x)),
+      (json["production_countries"] ?? []).map((x) => ProductionCountry.fromJson(x)),
     ),
-    releaseDate: DateTime.parse(json["release_date"]),
-    revenue: json["revenue"],
-    runtime: json["runtime"],
-    softcore: json["softcore"],
+    releaseDate: json["release_date"] != null && json["release_date"] != ''
+        ? DateTime.parse(json["release_date"])
+        : DateTime(1970),
+    revenue: json["revenue"] ?? 0,
+    runtime: json["runtime"] ?? 0,
     spokenLanguages: List<SpokenLanguage>.from(
-      json["spoken_languages"].map((x) => SpokenLanguage.fromJson(x)),
+      (json["spoken_languages"] ?? []).map((x) => SpokenLanguage.fromJson(x)),
     ),
-    status: json["status"],
-    tagline: json["tagline"],
-    title: json["title"],
-    video: json["video"],
-    voteAverage: json["vote_average"]?.toDouble(),
-    voteCount: json["vote_count"],
+    status: json["status"] ?? '',
+    tagline: json["tagline"] ?? '',
+    title: json["title"] ?? '',
+    video: json["video"] ?? false,
+    voteAverage: (json["vote_average"] ?? 0).toDouble(),
+    voteCount: json["vote_count"] ?? 0,
   );
 
   Map<String, dynamic> toJson() => {
     "adult": adult,
     "backdrop_path": backdropPath,
-    "belongs_to_collection": belongsToCollection.toJson(),
+    "belongs_to_collection": belongsToCollection?.toJson(),
     "budget": budget,
     "genres": List<dynamic>.from(genres.map((x) => x.toJson())),
     "homepage": homepage,
@@ -132,7 +134,6 @@ class MovieDbDetail {
         "${releaseDate.year.toString().padLeft(4, '0')}-${releaseDate.month.toString().padLeft(2, '0')}-${releaseDate.day.toString().padLeft(2, '0')}",
     "revenue": revenue,
     "runtime": runtime,
-    "softcore": softcore,
     "spoken_languages": List<dynamic>.from(
       spokenLanguages.map((x) => x.toJson()),
     ),
@@ -160,8 +161,8 @@ class BelongsToCollection {
 
   factory BelongsToCollection.fromJson(Map<String, dynamic> json) =>
       BelongsToCollection(
-        id: json != null ? json["id"] : "",
-        name: json["name"],
+        id: json["id"] ?? 0,
+        name: json["name"] ?? '',
         posterPath: json["poster_path"],
         backdropPath: json["backdrop_path"],
       );
