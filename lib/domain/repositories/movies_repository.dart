@@ -1,3 +1,4 @@
+import 'package:jfrg_movies_app/domain/domain.dart';
 import 'package:jfrg_movies_app/domain/entities/movie.dart';
 
 abstract class MoviesRepository {
@@ -13,4 +14,5 @@ abstract class MoviesRepository {
   Future<List<dynamic>> getYoutubeVideoById(
     String movieId,
   ); // <-- nombre igual que datasource
+  Future<List<Actor>> getActorByMovie(String movieId);
 }
