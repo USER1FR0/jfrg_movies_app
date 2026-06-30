@@ -1,6 +1,8 @@
 import 'package:jfrg_movies_app/config/config.dart';
 import 'package:dio/dio.dart';
-import 'package:jfrg_movies_app/insfraestructure/mappes/movie_maper.dart';
+import 'package:jfrg_movies_app/insfraestructure/mappers/actor_mapper.dart';
+import 'package:jfrg_movies_app/insfraestructure/mappers/movie_maper.dart';
+import 'package:jfrg_movies_app/insfraestructure/models/moviedb/moviedb_credits.dart';
 import 'package:jfrg_movies_app/insfraestructure/models/moviedb/moviedb_detail.dart';
 import 'package:jfrg_movies_app/insfraestructure/models/moviedb/moviedb_response.dart';
 import '../../domain/domain.dart';
@@ -28,6 +30,19 @@ class MoviedbDatasourceImpl implements MoviesDatasource {
         .map((movieDb) => MovieMaper.movieDbToEntity(movieDb))
         .toList();
     return movies;
+  }
+
+  @override
+  Future<List<Actor>> getActorsByMovie(String movieId) async {
+    final response = await dio.get('/movie/$movieId/credits');
+
+    final credits = MovieDbCredits.fromJson(response.data);
+
+    final List<Actor> actors = credits.cast
+        .map((cast) => ActorMapper.castToEntity(cast))
+        .toList();
+
+    return actors;
   }
 
   @override

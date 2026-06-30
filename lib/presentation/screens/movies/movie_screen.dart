@@ -3,10 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jfrg_movies_app/config/helpers/human_formats.dart';
+import 'package:jfrg_movies_app/presentation/providers/actors/actors_by_movie_provider.dart';
+import 'package:jfrg_movies_app/presentation/widgets/actors/actors_by_movie.dart';
 import 'package:jfrg_movies_app/presentation/widgets/movies/movie_geners.dart';
 import 'package:jfrg_movies_app/presentation/widgets/movies/movie_raiting.dart';
 import 'package:jfrg_movies_app/presentation/providers/movies/movie_info_provider.dart'
     show movieInfoProvider;
+
 import '../../../domain/domain.dart';
 
 class MovieScreen extends ConsumerStatefulWidget {
@@ -26,6 +29,7 @@ class _MovieScreenState extends ConsumerState<MovieScreen> {
     super.initState();
 
     ref.read(movieInfoProvider.notifier).loadMovie(widget.movieId);
+    ref.read(actorsByMovieProvider.notifier).loadActors(widget.movieId);
   }
 
   @override
@@ -74,6 +78,7 @@ class _MovieDetails extends StatelessWidget {
         MovieGeners(movie: movie),
 
         // TODO: Actores de la pelicula
+        ActorsByMovie(movieId: movie.id.toString()),
 
         // TODO: Trailers de la pelicula
 
@@ -231,3 +236,5 @@ class _CustomGradient extends StatelessWidget {
     );
   }
 }
+
+//! git commit -m "fix: Correccion de listado de pelicular (horizontal) y configuración de go_router"
