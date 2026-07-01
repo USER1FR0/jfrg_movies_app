@@ -1,4 +1,5 @@
 import 'package:jfrg_movies_app/domain/domain.dart';
+import 'package:jfrg_movies_app/domain/entities/video.dart';
 
 class MovieRepositoryImp extends MoviesRepository {
   final MoviesDatasource datasource;
@@ -40,9 +41,8 @@ class MovieRepositoryImp extends MoviesRepository {
   }
 
   @override
-  Future<List<dynamic>> getYoutubeVideoById(String movieId) {
-    // TODO: implement getYoutubeVideoById
-    throw UnimplementedError();
+  Future<List<Video>> getYoutubeVideoById(String movieId) {
+    return datasource.getYoutubeVideoById(movieId);
   }
 
   @override

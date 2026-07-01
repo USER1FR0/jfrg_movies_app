@@ -1,4 +1,5 @@
 import 'package:jfrg_movies_app/domain/domain.dart';
+import 'package:jfrg_movies_app/domain/entities/video.dart';
 
 abstract class MoviesDatasource {
   Future<List<Movie>> getNowPlaying({int page = 1});
@@ -8,6 +9,6 @@ abstract class MoviesDatasource {
   Future<Movie> getMovieById(String id);
   Future<List<Movie>> searchMovie(String query);
   Future<List<Movie>> getSimilarMovie(String movieId);
-  Future<List<dynamic>> getYoutubeVideoById(String movieId);
+  Future<List<Video>> getYoutubeVideoById(String movieId);
   Future<List<Actor>> getActorsByMovie(String movieId);
 }

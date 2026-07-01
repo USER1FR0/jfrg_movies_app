@@ -1,7 +1,10 @@
 import 'package:jfrg_movies_app/config/config.dart';
 import 'package:dio/dio.dart';
+import 'package:jfrg_movies_app/domain/entities/video.dart';
 import 'package:jfrg_movies_app/insfraestructure/mappers/actor_mapper.dart';
 import 'package:jfrg_movies_app/insfraestructure/mappers/movie_maper.dart';
+import 'package:jfrg_movies_app/insfraestructure/mappers/video_maper.dart';
+import 'package:jfrg_movies_app/insfraestructure/models/moviedb/movie_videos_response.dart';
 import 'package:jfrg_movies_app/insfraestructure/models/moviedb/moviedb_credits.dart';
 import 'package:jfrg_movies_app/insfraestructure/models/moviedb/moviedb_detail.dart';
 import 'package:jfrg_movies_app/insfraestructure/models/moviedb/moviedb_response.dart';
@@ -81,9 +84,18 @@ class MoviedbDatasourceImpl implements MoviesDatasource {
   }
 
   @override
-  Future<List<dynamic>> getYoutubeVideoById(String movieId) {
-    // TODO: implement getYoutubeVideoById
-    throw UnimplementedError();
+  Future<List<Video>> getYoutubeVideoById(String movieId) async {
+    final response = await dio.get('/movie/$movieId/videos');
+    final videosResponse = MovieDbVideosResponse.fromJson(response.data);
+    final videos = <Video>[];
+
+    for (final v in videosResponse.results) {
+      if (v.site == 'YouTube') {
+        final video = VideoMapper.movieDbVideoToEntity(v);
+        videos.add(video);
+      }
+    }
+    return videos;
   }
 
   @override

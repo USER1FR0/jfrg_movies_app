@@ -9,6 +9,7 @@ import 'package:jfrg_movies_app/presentation/widgets/movies/movie_geners.dart';
 import 'package:jfrg_movies_app/presentation/widgets/movies/movie_raiting.dart';
 import 'package:jfrg_movies_app/presentation/providers/movies/movie_info_provider.dart'
     show movieInfoProvider;
+import 'package:jfrg_movies_app/presentation/widgets/movies/video_from_movie.dart';
 
 import '../../../domain/domain.dart';
 
@@ -81,8 +82,10 @@ class _MovieDetails extends StatelessWidget {
         ActorsByMovie(movieId: movie.id.toString()),
 
         // TODO: Trailers de la pelicula
+        VideosFromMovie(movieId: movie.id.toString()),
 
         // TODO: Peliculas similares
+        SizedBox(height: 80),
       ],
     );
   }
